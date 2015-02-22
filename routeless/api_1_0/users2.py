@@ -14,3 +14,11 @@ class UsersView(FlaskView):
             return '<p>%s</p>' % user.email
         else:
             return ('Not Found', 404)
+    
+    def post(self):
+        user = User.from_json(request.json)
+
+        db.session.add(user)
+        db.session.commit()
+        return jsonify(user.to_json()), 201, \
+            {'Location': url_for('api.get_post', id=user.id, _external=True)}

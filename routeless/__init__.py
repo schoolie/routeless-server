@@ -39,11 +39,8 @@ def create_app(config_name):
     from .api_1_0 import api as api_1_0_blueprint
     app.register_blueprint(api_1_0_blueprint, url_prefix='/api/v1.0')
     
-    from .models import Course
-    user_bp = api_manager.create_api(Course, methods=['GET', 'POST', 'DELETE'])
-    
     QuotesView.register(app, route_base='/api/')
-    # UsersView.register(app)
+    UsersView.register(app)
     
     print app.url_map
     
