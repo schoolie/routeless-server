@@ -2,14 +2,11 @@
 from flask import Flask, jsonify
 from flask.ext.mail import Mail
 from flask.ext.moment import Moment
-from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.login import LoginManager
-from flask.ext.restless import APIManager
 from flask.ext.cors import CORS
 
-from api_1_0 import UsersView
-from routeless.core import db
-from routeless.models import User
+from routeless.extensions import db, api_manager
+from routeless.models import User, Course
 from config import config
 
 import pdb
@@ -19,7 +16,6 @@ moment = Moment()
 login_manager = LoginManager()
 login_manager.session_protection = 'strong'
 login_manager.login_view = 'auth.login'
-api_manager = APIManager(flask_sqlalchemy_db=db)
 cors = CORS()
 
 def create_app(config_name):
@@ -38,8 +34,14 @@ def create_app(config_name):
         from flask.ext.sslify import SSLify
         sslify = SSLify(app)
 
+    from api_1_0 import UsersView
     UsersView.register(app, route_base='/api_1_0/users/')
     
+    with app.app_context():
+        course_api = api_manager.create_api_blueprint(Course, 
+                                                      methods=['GET', 'POST'],
+                                                      app=app)
+        app.register_blueprint(course_api)
     
     print app.url_map
     
