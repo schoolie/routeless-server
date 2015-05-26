@@ -6,10 +6,11 @@ from routeless.models import User
 class UsersView(FlaskView):
 
     def index(self):
-        return 'testing'
+        users = User.query.all()
+        return str([user.to_json() for user in users])
 
-    def get(self, id):
-        user = User.query.filter(User.id == id).first()
+    def get(self, username):
+        user = User.query.filter(User.username == username).first()
         if user:
             return '<p>%s</p>' % user.email
         else:

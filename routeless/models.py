@@ -17,27 +17,28 @@ class AnonymousUser(db.Model):
     id = db.Column(db.Integer, primary_key=True)
 
 
-# class User(db.Model):
-    # __tablename__ = 'user'
-    # id = db.Column(db.Integer, primary_key=True)
-    # events = db.relationship('Event', backref='user', lazy='dynamic')
-    # courses = db.relationship('Course', backref='creator', lazy='dynamic')
-    # username = db.Column(db.String(64), unique=True)
-    # email = db.Column(db.String(64), unique=True)
+class User(db.Model):
+    __tablename__ = 'user'
+    id = db.Column(db.Integer, primary_key=True)
+    events = db.relationship('Event', backref='user', lazy='dynamic')
+    courses = db.relationship('Course', backref='creator', lazy='dynamic')
+    username = db.Column(db.String(64), unique=True)
+    email = db.Column(db.String(64), unique=True)
     
-    # def to_json(self):
-    # json_user = {
-        # 'url': url_for('api.get_post', id=self.id, _external=True),
-        # 'username': self.username,
-        # 'member_since': self.member_since,
-        # 'last_seen': self.last_seen,
-        # 'posts': url_for('api.get_user_posts', id=self.id, _external=True),
-        # 'followed_posts': url_for('api.get_user_followed_posts',
-                                  # id=self.id, _external=True),
-        # 'post_count': self.posts.count()
-    # }
-    # return json_user
-    
+    def to_json(self):
+        json_user = {
+            'url': url_for('UsersView:get', username=self.username, _external=True),
+            'username': self.username,
+            'email': self.email,
+            # 'member_since': self.member_since,
+            # 'last_seen': self.last_seen,
+            # 'posts': url_for('api.get_user_posts', id=self.id, _external=True),
+            # 'followed_posts': url_for('api.get_user_followed_posts',
+                                      # id=self.id, _external=True),
+            # 'post_count': self.posts.count()
+        }
+        return json_user
+'''  
 class Follow(db.Model):
     __tablename__ = 'follows'
     follower_id = db.Column(db.Integer, db.ForeignKey('users.id'),
@@ -45,8 +46,8 @@ class Follow(db.Model):
     followed_id = db.Column(db.Integer, db.ForeignKey('users.id'),
                             primary_key=True)
     timestamp = db.Column(db.DateTime, default=datetime.utcnow)
-
-
+'''
+'''
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
@@ -255,7 +256,7 @@ class User(UserMixin, db.Model):
 
     def __repr__(self):
         return '<User %r>' % self.username
-
+'''
 
 class Course(db.Model):
     __tablename__ = 'course'
