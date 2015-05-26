@@ -1,0 +1,30 @@
+<html>
+<body>
+    <p id="test">Testing</p>
+</body>
+<script src="jquery.min.js"></script>
+<script>
+    var req = function(){
+        console.log('requesting')
+        var url = "http://localhost:5000/test"
+     
+        $.ajax({
+               type: "GET",
+               url: url,
+               crossDomain: true,
+               dataType: "json",
+               success: function(data) {
+                   console.debug('Success');
+                   console.debug(JSON.stringify(data));
+               }
+               }).fail(function(xhr) {
+                    console.log('failed');
+                    console.log(xhr.responseText)
+                        //alert("No data for this particular selection.");
+               });
+       };
+    
+    window.onload = function(){req();}
+</script>
+   
+

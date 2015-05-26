@@ -4,7 +4,7 @@ from flask.ext.classy import FlaskView
 from routeless.core import db
 from routeless.models import User
 
-class UsersView(FlaskView):
+class CoursesView(FlaskView):
     
     def index(self):
         users = User.query.all()

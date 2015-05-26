@@ -2,7 +2,7 @@ from datetime import datetime
 import hashlib
 from werkzeug.security import generate_password_hash, check_password_hash
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
-from flask import current_app, request, url_for
+from flask import current_app, request, url_for, jsonify
 from flask.ext.login import UserMixin, AnonymousUserMixin
 from routeless.exceptions import ValidationError
 from routeless.core import db
@@ -30,6 +30,7 @@ class User(db.Model):
             'url': url_for('UsersView:get', username=self.username, _external=True),
             'username': self.username,
             'email': self.email,
+            'id': self.id,
             # 'member_since': self.member_since,
             # 'last_seen': self.last_seen,
             # 'posts': url_for('api.get_user_posts', id=self.id, _external=True),
