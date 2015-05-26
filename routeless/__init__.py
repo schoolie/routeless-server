@@ -7,7 +7,7 @@ from flask.ext.login import LoginManager
 from flask.ext.restless import APIManager
 
 
-from api_1_0 import QuotesView, UsersView
+from api_1_0 import UsersView
 from routeless.core import db
 from config import config
 

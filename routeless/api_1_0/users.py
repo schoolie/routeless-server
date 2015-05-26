@@ -1,45 +1,25 @@
-# Embedded file name: C:\Development\routeless-server\routeless\api_1_0\users.py
-from flask import jsonify, request, current_app, url_for
-from . import api
-from ..models import User, Post
+# Embedded file name: C:\Development\routeless-server\routeless\api_1_0\users2.py
+from flask.ext.classy import FlaskView
+from routeless.core import db
+from routeless.models import User
 
-@api.route('/users/<int:id>')
-def get_user(id):
-    user = User.query.get_or_404(id)
-    return jsonify(user.to_json())
+class UsersView(FlaskView):
 
+    def index(self):
+        users = User.query.all()
+        return str([user.to_json() for user in users])
 
-@api.route('/users/<int:id>/posts/')
-def get_user_posts(id):
-    user = User.query.get_or_404(id)
-    page = request.args.get('page', 1, type=int)
-    pagination = user.posts.order_by(Post.timestamp.desc()).paginate(page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'], error_out=False)
-    posts = pagination.items
-    prev = None
-    if pagination.has_prev:
-        prev = url_for('api.get_posts', page=page - 1, _external=True)
-    next = None
-    if pagination.has_next:
-        next = url_for('api.get_posts', page=page + 1, _external=True)
-    return jsonify({'posts': [ post.to_json() for post in posts ],
-     'prev': prev,
-     'next': next,
-     'count': pagination.total})
+    def get(self, username):
+        user = User.query.filter(User.username == username).first()
+        if user:
+            return '<p>%s</p>' % user.email
+        else:
+            return ('Not Found', 404)
+    
+    def post(self):
+        user = User.from_json(request.json)
 
-
-@api.route('/users/<int:id>/timeline/')
-def get_user_followed_posts(id):
-    user = User.query.get_or_404(id)
-    page = request.args.get('page', 1, type=int)
-    pagination = user.followed_posts.order_by(Post.timestamp.desc()).paginate(page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'], error_out=False)
-    posts = pagination.items
-    prev = None
-    if pagination.has_prev:
-        prev = url_for('api.get_posts', page=page - 1, _external=True)
-    next = None
-    if pagination.has_next:
-        next = url_for('api.get_posts', page=page + 1, _external=True)
-    return jsonify({'posts': [ post.to_json() for post in posts ],
-     'prev': prev,
-     'next': next,
-     'count': pagination.total})
+        db.session.add(user)
+        db.session.commit()
+        return jsonify(user.to_json()), 201, \
+            {'Location': url_for('api.get_post', id=user.id, _external=True)}
