@@ -8,7 +8,12 @@ class UsersView(FlaskView):
     
     def index(self):
         users = User.query.all()
-        return jsonify({'list':[user.to_json() for user in users]})
+        return jsonify({
+                        'objects':[user.to_json() for user in users],
+                        'num_results': len(users),
+                        'page': 1,
+                        'total_pages': 1
+                       })
     
     def get(self, username):
         user = User.query.filter(User.username == username).first()

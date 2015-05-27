@@ -6,7 +6,7 @@ from flask.ext.login import LoginManager
 from flask.ext.cors import CORS
 
 from routeless.extensions import db, api_manager
-from routeless.models import User, Course
+from routeless.models import User, Course, Event
 from config import config
 
 import pdb
@@ -38,10 +38,26 @@ def create_app(config_name):
     UsersView.register(app, route_base='/api_1_0/users/')
     
     with app.app_context():
-        course_api = api_manager.create_api_blueprint(Course, 
-                                                      methods=['GET', 'POST'],
-                                                      app=app)
+        url_prefix = '/api_1_0'
+        course_api = api_manager.create_api_blueprint(
+                            Course, 
+                            collection_name='courses',
+                            url_prefix=url_prefix, 
+                            methods=['GET', 'POST'], 
+                            app=app
+                           )
         app.register_blueprint(course_api)
+    
+    
+        event_api = api_manager.create_api_blueprint(
+                            Event, 
+                            collection_name='events',
+                            url_prefix=url_prefix, 
+                            methods=['GET', 'POST'], 
+                            app=app
+                           )
+        app.register_blueprint(event_api)
+    
     
     print app.url_map
     
