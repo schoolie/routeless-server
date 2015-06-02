@@ -1,7 +1,7 @@
 # Embedded file name: C:\Development\routeless-server\routeless\api_1_0\users2.py
 from flask import jsonify
 from flask.ext.classy import FlaskView
-from routeless.core import db
+from routeless.extensions import db
 from routeless.models import User
 
 class UsersView(FlaskView):

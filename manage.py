@@ -13,8 +13,9 @@ if os.path.exists('.env'):
         if len(var) == 2:
             os.environ[var[0]] = var[1]
 
-from routeless import create_app, db
-from routeless.models import User#, Follow, Role, Permission, Post, Comment
+from routeless import create_app 
+from routeless.extensions import db
+from routeless.models import User, Course#, Follow, Role, Permission, Post, Comment
 from flask.ext.script import Manager, Shell
 from flask.ext.migrate import Migrate, MigrateCommand
 
@@ -24,7 +25,10 @@ migrate = Migrate(app, db)
 
 
 def make_shell_context():
-    return dict(app=app, db=db, User=User)
+    return dict(app=app, 
+                db=db, 
+                User=User,
+                Course=Course)
 manager.add_command("shell", Shell(make_context=make_shell_context))
 manager.add_command('db', MigrateCommand)
 

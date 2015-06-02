@@ -6,7 +6,7 @@ from flask.ext.login import LoginManager
 from flask.ext.cors import CORS
 
 from routeless.extensions import db, api_manager
-from routeless.models import User, Course, Event
+from routeless.models import User, Course, CheckPoint
 from config import config
 
 import pdb
@@ -40,24 +40,54 @@ def create_app(config_name):
     
     with app.app_context():
         url_prefix = '/api_1_0'
+        
+        # def print_request(**kw):
+            # pass
+        def print_request(**kw):
+            # pdb.set_trace()
+            try:
+                print 'request'
+                print request.data
+            except:
+                pass
+            
         course_api = api_manager.create_api_blueprint(
                             Course, 
                             collection_name='courses',
                             url_prefix=url_prefix, 
-                            methods=['GET', 'POST'], 
+                            methods=['GET', 'POST', 'PUT'], 
+                            preprocessors={
+                                    'GET_SINGLE': [print_request],
+                                    'PUT_SINGLE': [print_request]
+                                     },
+                            # postprocessors={
+                                    # 'GET_SINGLE': [teardown],
+                                    # 'PUT_SINGLE': [teardown]
+                                     # },
                             app=app
                            )
-        app.register_blueprint(course_api)
-    
-    
-        event_api = api_manager.create_api_blueprint(
-                            Event, 
-                            collection_name='events',
+        app.register_blueprint(course_api)       
+        
+        checkpoint_api = api_manager.create_api_blueprint(
+                            CheckPoint, 
+                            collection_name='checkpoints',
                             url_prefix=url_prefix, 
-                            methods=['GET', 'POST'], 
+                            methods=['GET', 'POST', 'PUT', 'DELETE'], 
+                            preprocessors={
+                                    'GET_SINGLE': [print_request],
+                                    'PUT_SINGLE': [print_request],
+                                    'DELETE_SINGLE': [print_request]
+                                     },
+                            # postprocessors={
+                                    # 'GET_SINGLE': [teardown],
+                                    # 'PUT_SINGLE': [teardown],
+                                    # 'DELETE_SINGLE': [teardown]
+                                     # },
                             app=app
                            )
-        app.register_blueprint(event_api)
+        app.register_blueprint(checkpoint_api)
+    
+
     
     @app.route('/test', methods = ['POST'])
     def test():

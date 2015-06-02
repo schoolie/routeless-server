@@ -5,7 +5,7 @@ from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from flask import current_app, request, url_for, jsonify
 from flask.ext.login import UserMixin, AnonymousUserMixin
 from routeless.exceptions import ValidationError
-from routeless.core import db
+from routeless.extensions import db
 
 class Post(db.Model):
     __tablename__ = 'post'
