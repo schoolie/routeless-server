@@ -6,13 +6,14 @@
 <script>
     var req = function(){
         console.log('requesting')
-        var url = "http://localhost:5000/test"
+        var url = "http://localhost:5000/api_1_0/users/"
      
         $.ajax({
-               type: "GET",
+               type: "POST",
                url: url,
                crossDomain: true,
                dataType: "json",
+               data: {username: 'test'},
                success: function(data) {
                    console.debug('Success');
                    console.debug(JSON.stringify(data));

@@ -27,7 +27,7 @@ class User(db.Model):
     
     def to_json(self):
         json_user = {
-            'url': url_for('UsersView:get', username=self.username, _external=True),
+            'url': url_for('UsersView:get', id=self.id, _external=True),
             'username': self.username,
             'email': self.email,
             'id': self.id,
