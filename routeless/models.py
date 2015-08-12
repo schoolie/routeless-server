@@ -264,8 +264,8 @@ class Course(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     creator_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     check_points = db.relationship('CheckPoint', backref='course', lazy='dynamic')
-    centerlat = db.Column(db.Float)
-    centerlon = db.Column(db.Float)
+    lat = db.Column(db.Float)
+    lng = db.Column(db.Float)
     map_layer = db.Column(db.String(10))
     zoom = db.Column(db.Integer)
     date_created = db.Column(db.DateTime(), default=datetime.utcnow)
@@ -290,9 +290,9 @@ class CheckPoint(db.Model):
     course_id = db.Column(db.Integer, db.ForeignKey('course.id'))
     check_point_logs = db.relationship('CheckPointLog', backref='check_point', lazy='dynamic')
     lat = db.Column(db.Float)
-    lon = db.Column(db.Float)
+    lng = db.Column(db.Float)
     title = db.Column(db.String(10))
-    description = db.Column(db.String(140))
+    message = db.Column(db.String(140))
 
 
 class CheckPointLog(db.Model):

@@ -77,7 +77,8 @@ def create_app(config_name):
                             methods=['GET', 'POST', 'PUT'], 
                             preprocessors={
                                     'GET_SINGLE': [print_request],
-                                    'PUT_SINGLE': [print_request]
+                                    'PUT_SINGLE': [print_request],
+                                    'POST': [print_request]
                                      },
                             # postprocessors={
                                     # 'GET_SINGLE': [teardown],
