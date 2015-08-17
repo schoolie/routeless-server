@@ -31,6 +31,9 @@ class DevelopmentConfig(Config):
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or 'sqlite:///' + os.path.join(basedir, 'data-dev.sqlite')
 
+class DevServerConfig(Config):
+    DEBUG = True
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or 'sqlite:///' + os.path.join(basedir, 'data-dev.sqlite')
 
 class TestingConfig(Config):
     TESTING = True
@@ -86,6 +89,7 @@ class UnixConfig(ProductionConfig):
 
 
 config = {'development': DevelopmentConfig,
+ 'dev_server': DevServerConfig,
  'testing': TestingConfig,
  'production': ProductionConfig,
  'heroku': HerokuConfig,
