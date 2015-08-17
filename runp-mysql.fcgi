@@ -2,7 +2,7 @@
 
 import os
 
-from flipflop import WSGIServer
+from flup.server.fcgi import WSGIServer
 from routeless import create_app
 
 app = create_app('dev_server')
