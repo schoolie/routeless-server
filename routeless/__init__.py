@@ -6,7 +6,7 @@ from flask.ext.login import LoginManager
 from flask.ext.cors import CORS
 
 from routeless.extensions import db, api_manager
-from routeless.models import User, Course, CheckPoint
+from routeless.models import User, Course, CheckPoint, Event
 from config import config
 
 import pdb
@@ -30,7 +30,7 @@ def create_app(config_name):
     api_manager.init_app(app)
     # cors.init_app(app, resources={"/api_1_0/*": {"origins": "http://localhost:8383"}})
     # cors.init_app(app, resources={"/*": {"origins": "http://localhost:8383"}})
-    cors.init_app(app, resources={"/*": {"origins": "http://*"}})
+    cors.init_app(app, resources={r"/*": {"origins": "http://*"}})
     
     # if not app.debug and not app.testing and not app.config['SSL_DISABLE']:
         # from flask.ext.sslify import SSLify
@@ -106,6 +106,25 @@ def create_app(config_name):
                             app=app
                            )
         app.register_blueprint(checkpoint_api)
+            
+        event_api = api_manager.create_api_blueprint(
+                            Event, 
+                            collection_name='events',
+                            url_prefix=url_prefix, 
+                            methods=['GET', 'POST', 'PUT', 'DELETE'], 
+                            preprocessors={
+                                    'GET_SINGLE': [print_request],
+                                    'PUT_SINGLE': [print_request],
+                                    'DELETE_SINGLE': [print_request]
+                                     },
+                            # postprocessors={
+                                    # 'GET_SINGLE': [teardown],
+                                    # 'PUT_SINGLE': [teardown],
+                                    # 'DELETE_SINGLE': [teardown]
+                                     # },
+                            app=app
+                           )
+        app.register_blueprint(event_api)
     
 
     
