@@ -26,7 +26,6 @@ class UsersView(FlaskView):
         else:
             return ('Not Found', 404)
     
-    @jwt_required()
     def post(self):
         print request.json
         # import pdb; pdb.set_trace()
