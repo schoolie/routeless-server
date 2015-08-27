@@ -24,6 +24,10 @@ class User(db.Model):
     courses = db.relationship('Course', backref='creator', lazy='dynamic')
     username = db.Column(db.String(64), unique=True)
     email = db.Column(db.String(64), unique=True)
+    password = db.Column(db.String(64))
+    
+    def __repr__(self):
+        return '<User %d: %s>' % (self.id, self.username)
     
     def to_json(self):
         json_user = {

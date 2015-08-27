@@ -20,6 +20,8 @@ class Config:
     FLASKY_COMMENTS_PER_PAGE = 30
     FLASKY_SLOW_DB_QUERY_TIME = 0.5
 
+    JWT_EXPIRATION_DELTA = 3600
+    
     CORS_HEADERS = 'Content-Type'
     
     @staticmethod
