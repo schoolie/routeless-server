@@ -48,14 +48,14 @@ def create_app(config_name):
 
     @jwt.user_handler
     def load_user(payload):
-        if 'user_id' in payload.keys():
-            user = User.query.filter_by(id=payload['user_id']).first()
+        if 'id' in payload.keys():
+            user = User.query.filter_by(id=payload['id']).first()
             return user
             
     @jwt.payload_handler
     def make_payload(user):
         payload = {
-            'user_id': user.id,
+            'id': user.id,
             'username': user.username,
             # 'exp': datetime.utcnow() + current_app.config['JWT_EXPIRATION_DELTA']
         }
