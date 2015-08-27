@@ -45,11 +45,6 @@ def create_app(config_name):
         if user is not None:
             if password == user.password:
                 return user
-        else:
-            user = User(username=username, password=password)
-            db.session.add(user)
-            db.session.commit()
-            return user
 
     @jwt.user_handler
     def load_user(payload):

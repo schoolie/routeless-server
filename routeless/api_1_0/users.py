@@ -25,17 +25,16 @@ class UsersView(FlaskView):
     def post(self):
         print request.json
         # import pdb; pdb.set_trace()
-        user = User(username = request.json['username'])
+        user = User(username = request.json['username'], password=request.json['password'])
         
         if User.query.filter(User.username == user.username).count() > 0:
+            print 'Already exists'
             return ('Already Exists', 422)
             
         
         db.session.add(user)
         db.session.commit()
-        print 'worked'
-        # except: #####################FIX THIS
-            # db.session.rollback()
+        print 'User Added'
         
         return jsonify(user.to_json()), 201, \
             {'Location': url_for('UsersView:get', id=user.id, _external=True)}
