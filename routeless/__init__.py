@@ -10,7 +10,7 @@ from flask_jwt import JWT, jwt_required
 
 from routeless.extensions import db, api_manager
 from routeless.models import User, Course, CheckPoint, Event
-from routeless.api_1_0 import course_api_config, checkpoint_api_config, event_api_config
+from routeless.api_1_0 import course_api_config, checkpoint_api_config, event_api_config, user_api_config
 from config import config
 
 import pdb
@@ -60,9 +60,6 @@ def create_app(config_name):
         }
         print 'payload:', payload
         return payload
-
-    from api_1_0 import UsersView
-    UsersView.register(app, route_base='/api_1_0/users_', trailing_slash=False)
     
     with app.app_context():
         
@@ -75,13 +72,10 @@ def create_app(config_name):
             
         event_api = api_manager.create_api_blueprint(Event, app=app, **event_api_config)
         app.register_blueprint(event_api)
+            
+        user_api = api_manager.create_api_blueprint(User, app=app, **user_api_config)
+        app.register_blueprint(user_api)
         
-    @app.route('/test', methods = ['POST'])
-    def test():
-        print request.data
-        # pdb.set_trace()
-        return 'done'
-    
     print app.url_map
     
     return app

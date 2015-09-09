@@ -1,7 +1,11 @@
 from flask import current_app
+from flask.ext.restless import ProcessingException
 
 from routeless.extensions import api_manager
-from routeless.api_1_0.api_config import url_prefix, authenticate
+from routeless.api_1_0.api_config import url_prefix, authenticate, create_user
+from routeless.models import User
+from routeless.extensions import db
+
 
 course_api_config = {'collection_name': 'courses',
                     'url_prefix': url_prefix, 
@@ -37,5 +41,16 @@ event_api_config = {'collection_name': 'events',
                             'GET_SINGLE': [authenticate],
                             'PUT_SINGLE': [authenticate],
                             'POST': [authenticate]
+                             },
+                   }
+                   
+user_api_config = {'collection_name': 'users',
+                    'url_prefix': url_prefix, 
+                    'methods': ['GET', 'POST', 'PUT', 'DELETE'], 
+                    'preprocessors': {
+                            'GET_MANY': [authenticate],
+                            'GET_SINGLE': [authenticate],
+                            'PUT_SINGLE': [authenticate],
+                            'POST': [create_user]
                              },
                    }
