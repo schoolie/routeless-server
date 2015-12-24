@@ -24,6 +24,7 @@ class Config:
     @staticmethod
     def init_app(app):
         pass
+        # import pdb; pdb.set_trace()
 
 
 class ProductionConfig(Config):

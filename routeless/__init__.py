@@ -12,7 +12,7 @@ from routeless.models import User, Course, CheckPoint, Event
 from routeless.api_1_0 import course_api_config, checkpoint_api_config, event_api_config, user_api_config
 from config import config
 
-import pdb
+import pdb, logging
 
 mail = Mail()
 moment = Moment()
@@ -53,10 +53,11 @@ def create_app(config_name):
             'username': user.username,
             # 'exp': datetime.utcnow() + current_app.config['JWT_EXPIRATION_DELTA']
         }
-        print 'payload:', payload
+        print 'JWT payload:', payload
         return payload
     
     jwt.init_app(app)
+    logging.getLogger('flask_jwt').addHandler(logging.StreamHandler())
     
     with app.app_context():
         

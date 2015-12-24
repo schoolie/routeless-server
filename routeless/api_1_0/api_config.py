@@ -6,7 +6,7 @@ url_prefix = '/api_1_0'
 @jwt_required()
 def authenticate(**kw):
     print '\n'
-    print kw
+    print 'auth kwargs:', kw
     # try:
         # verify_jwt()
     # except Exception, err:
