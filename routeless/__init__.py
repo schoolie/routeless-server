@@ -3,9 +3,8 @@ from datetime import datetime
 from flask import Flask, jsonify, request, current_app
 from flask.ext.mail import Mail
 from flask.ext.moment import Moment
-from flask.ext.login import LoginManager
 from flask.ext.cors import CORS
-from flask_jwt import JWT, jwt_required
+from flask_jwt import JWT
 
 
 from routeless.extensions import db, api_manager
@@ -17,9 +16,6 @@ import pdb
 
 mail = Mail()
 moment = Moment()
-login_manager = LoginManager()
-login_manager.session_protection = 'strong'
-login_manager.login_view = 'auth.login'
 cors = CORS()
 jwt = JWT()
 
@@ -31,10 +27,9 @@ def create_app(config_name):
     mail.init_app(app)
     moment.init_app(app)
     db.init_app(app)
-    login_manager.init_app(app)
+    # login_manager.init_app(app)
     api_manager.init_app(app)
-    cors.init_app(app, resources={r"/*": {"origins": "http://*"}})
-    jwt.init_app(app)
+    cors.init_app(app, resources={r"/*": {"origins": "*"}})
     
 
     @jwt.authentication_handler
@@ -45,13 +40,13 @@ def create_app(config_name):
             if password == user.password:
                 return user
 
-    @jwt.user_handler
+    @jwt.identity_handler
     def load_user(payload):
         if 'id' in payload.keys():
             user = User.query.filter_by(id=payload['id']).first()
             return user
             
-    @jwt.payload_handler
+    @jwt.jwt_payload_handler
     def make_payload(user):
         payload = {
             'id': user.id,
@@ -60,6 +55,8 @@ def create_app(config_name):
         }
         print 'payload:', payload
         return payload
+    
+    jwt.init_app(app)
     
     with app.app_context():
         

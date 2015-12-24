@@ -1,17 +1,18 @@
-from flask_jwt import verify_jwt
+from flask_jwt import jwt_required, current_identity
 from flask.ext.restless import ProcessingException
 
 url_prefix = '/api_1_0'
 
+@jwt_required()
 def authenticate(**kw):
     print '\n'
     print kw
-    try:
-        verify_jwt()
-    except Exception, err:
-        print '\nAuthentication Error '
-        raise ProcessingException(description='Authentication Required',
-                                  code=401)        
+    # try:
+        # verify_jwt()
+    # except Exception, err:
+        # print '\nAuthentication Error '
+        # raise ProcessingException(description='Authentication Required',
+                                  # code=401)        
         # import pdb; pdb.set_trace()
     print 'Authenticated'
     

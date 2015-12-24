@@ -17,6 +17,7 @@ class Config:
     ROUTELESS_ADMIN = os.environ.get('FLASKY_ADMIN')
 
     JWT_EXPIRATION_DELTA = 3600
+    JWT_REQUIRED_CLAIMS = ['username', 'id']
     
     CORS_HEADERS = 'Content-Type'
     
