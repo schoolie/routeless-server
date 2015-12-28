@@ -48,8 +48,12 @@ class User(db.Model):
 class Course(db.Model):
     __tablename__ = 'course'
     id = db.Column(db.Integer, primary_key=True)
+    
     creator_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    
     check_points = db.relationship('CheckPoint', backref='course', lazy='dynamic')
+    events = db.relationship('Event', backref='course', lazy='dynamic')
+
     lat = db.Column(db.Float)
     lng = db.Column(db.Float)
     map_layer = db.Column(db.String(10))
@@ -62,10 +66,13 @@ class Course(db.Model):
 class Event(db.Model):
     __tablename__ = 'event'
     id = db.Column(db.Integer, primary_key=True)
+    
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     course_id = db.Column(db.Integer, db.ForeignKey('course.id'))
+    
     routes = db.relationship('Route', backref='event', lazy='dynamic')
     check_point_logs = db.relationship('CheckPointLog', backref='event', lazy='dynamic')
+    
     date = db.Column(db.DateTime(), default=datetime.utcnow)
     time_elapsed = db.Column(db.Interval())
 
@@ -73,8 +80,11 @@ class Event(db.Model):
 class CheckPoint(db.Model):
     __tablename__ = 'check_point'
     id = db.Column(db.Integer, primary_key=True)
+    
     course_id = db.Column(db.Integer, db.ForeignKey('course.id'))
+    
     check_point_logs = db.relationship('CheckPointLog', backref='check_point', lazy='dynamic')
+    
     lat = db.Column(db.Float)
     lng = db.Column(db.Float)
     title = db.Column(db.String(10))
@@ -84,9 +94,12 @@ class CheckPoint(db.Model):
 class CheckPointLog(db.Model):
     __tablename__ = 'check_point_log'
     id = db.Column(db.Integer, primary_key=True)
+    
     event_id = db.Column(db.Integer, db.ForeignKey('event.id'))
     check_point_id = db.Column(db.Integer, db.ForeignKey('check_point.id'))
+    
     log_points = db.relationship('LogPoint', backref='check_point_log', lazy='dynamic')
+    
     found = db.Column(db.Integer)
     check_count = db.Column(db.Integer)
 
