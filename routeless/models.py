@@ -100,8 +100,8 @@ class CheckPointLog(db.Model):
     
     log_points = db.relationship('LogPoint', backref='check_point_log', lazy='dynamic')
     
-    found = db.Column(db.Integer)
-    check_count = db.Column(db.Integer)
+    found = db.Column(db.Integer, default=False)
+    check_count = db.Column(db.Integer, default=0)
 
 
 class Route(db.Model):
