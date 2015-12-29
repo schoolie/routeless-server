@@ -2,6 +2,7 @@ from flask_jwt import jwt_required, current_identity
 from flask.ext.restless import ProcessingException
 
 from routeless.models import User, Course, Event, CheckPointLog
+from routeless.schemas import EventSchema
 from routeless.extensions import db
 
 url_prefix = '/api_1_0'
@@ -43,4 +44,12 @@ def create_check_point_logs(data=None, **kw):
     db.session.commit()
     
     # import pdb; pdb.set_trace()
+
     
+event_schema = EventSchema()
+
+def event_serializer(instance):
+    return event_schema.dump(instance).data
+
+def event_deserializer(data):
+    return event_schema.load(data).data

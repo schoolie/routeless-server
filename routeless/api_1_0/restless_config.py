@@ -2,7 +2,8 @@ from flask import current_app
 from flask.ext.restless import ProcessingException
 
 from routeless.extensions import api_manager
-from routeless.api_1_0.api_config import url_prefix, authenticate, create_user, create_check_point_logs
+from routeless.api_1_0.api_config import url_prefix, authenticate, create_user, create_check_point_logs, \
+                                         event_serializer, event_deserializer
 from routeless.models import User
 from routeless.extensions import db
 
@@ -42,7 +43,9 @@ event_api_config = {'collection_name': 'events',
                             'PUT_SINGLE': [authenticate],
                             'POST': [authenticate]
                              },
-                    'postprocessors': {'POST': [create_check_point_logs]}
+                    'postprocessors': {'POST': [create_check_point_logs]},
+                    'serializer': event_serializer,
+                    'deserializer': event_deserializer
                    }
                    
 user_api_config = {'collection_name': 'users',

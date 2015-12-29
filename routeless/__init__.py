@@ -7,7 +7,8 @@ from flask.ext.cors import CORS
 from flask_jwt import JWT
 
 
-from routeless.extensions import db, api_manager
+
+from routeless.extensions import db, api_manager, ma
 from routeless.models import User, Course, CheckPoint, Event
 from routeless.api_1_0 import course_api_config, checkpoint_api_config, event_api_config, user_api_config
 from config import config
@@ -29,8 +30,10 @@ def create_app(config_name):
     db.init_app(app)
     # login_manager.init_app(app)
     api_manager.init_app(app)
+    
     cors.init_app(app, resources={r"/*": {"origins": "*"}})
     
+    ma.init_app(app)
 
     @jwt.authentication_handler
     def authenticate(username, password):
