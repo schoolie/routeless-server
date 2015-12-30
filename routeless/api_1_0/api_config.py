@@ -23,10 +23,10 @@ def authenticate(**kw):
 def create_user(data=None, **kw):
     print data
 
-    if User.query.filter(User.username == data.username).count() > 0:
+    if User.query.filter(User.username == data['username']).count() > 0:
         raise ProcessingException(description='Username not unique',
                                   code=422)        
-        if User.query.filter(User.email == data.email).count() > 0:
+        if User.query.filter(User.email == data['email']).count() > 0:
             raise ProcessingException(description='Email not unique',
                                       code=422)
                                       

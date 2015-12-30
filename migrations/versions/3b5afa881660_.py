@@ -1,13 +1,13 @@
 """empty message
 
-Revision ID: 298b282f3f0e
+Revision ID: 3b5afa881660
 Revises: None
-Create Date: 2015-08-07 20:33:09.594000
+Create Date: 2015-12-29 19:06:40.639000
 
 """
 
 # revision identifiers, used by Alembic.
-revision = '298b282f3f0e'
+revision = '3b5afa881660'
 down_revision = None
 
 from alembic import op
@@ -28,6 +28,7 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('username', sa.String(length=64), nullable=True),
     sa.Column('email', sa.String(length=64), nullable=True),
+    sa.Column('password', sa.String(length=64), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('email'),
     sa.UniqueConstraint('username')
@@ -86,7 +87,8 @@ def upgrade():
     sa.Column('check_point_log_id', sa.Integer(), nullable=True),
     sa.Column('time', sa.DateTime(), nullable=True),
     sa.Column('lat', sa.Float(), nullable=True),
-    sa.Column('lon', sa.Float(), nullable=True),
+    sa.Column('lng', sa.Float(), nullable=True),
+    sa.Column('distance', sa.Float(), nullable=True),
     sa.Column('type', sa.String(length=10), nullable=True),
     sa.ForeignKeyConstraint(['check_point_log_id'], ['check_point_log.id'], ),
     sa.PrimaryKeyConstraint('id')
@@ -96,7 +98,7 @@ def upgrade():
     sa.Column('route_id', sa.Integer(), nullable=True),
     sa.Column('time', sa.DateTime(), nullable=True),
     sa.Column('lat', sa.Float(), nullable=True),
-    sa.Column('lon', sa.Float(), nullable=True),
+    sa.Column('lng', sa.Float(), nullable=True),
     sa.ForeignKeyConstraint(['route_id'], ['route.id'], ),
     sa.PrimaryKeyConstraint('id')
     )

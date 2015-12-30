@@ -118,7 +118,7 @@ class RoutePoint(db.Model):
     route_id = db.Column(db.Integer, db.ForeignKey('route.id'))
     time = db.Column(db.DateTime(), default=datetime.utcnow)
     lat = db.Column(db.Float)
-    lon = db.Column(db.Float)
+    lng = db.Column(db.Float)
 
 
 class LogPoint(db.Model):
@@ -127,5 +127,6 @@ class LogPoint(db.Model):
     check_point_log_id = db.Column(db.Integer, db.ForeignKey('check_point_log.id'))
     time = db.Column(db.DateTime(), default=datetime.utcnow)
     lat = db.Column(db.Float)
-    lon = db.Column(db.Float)
+    lng = db.Column(db.Float)
+    distance = db.Column(db.Float)
     type = db.Column(db.String(10))
