@@ -10,7 +10,7 @@ url_prefix = '/api_1_0'
 @jwt_required()
 def authenticate(**kw):
     print '\n'
-    print 'auth kwargs:', kw
+    # print 'auth kwargs:', kw
     # try:
         # verify_jwt()
     # except Exception, err:
@@ -19,6 +19,11 @@ def authenticate(**kw):
                                   # code=401)        
         # import pdb; pdb.set_trace()
     print 'Authenticated'
+    
+def print_request(data=None, **kw):
+    print data
+    print kw
+    import pdb; pdb.set_trace()
     
 def create_user(data=None, **kw):
     print data
