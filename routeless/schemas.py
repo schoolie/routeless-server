@@ -17,6 +17,9 @@ class CheckPointLogSchema(ma.ModelSchema):
         
     log_points = fields.Nested(LogPointSchema, 
                                  many=True)
+        
+    check_point = fields.Nested(CheckPointSchema,
+                                 exclude=('check_point_logs',))
                                  
 class CourseSchema(ma.ModelSchema):
     class Meta:
@@ -33,4 +36,4 @@ class EventSchema(ma.ModelSchema):
     course = fields.Nested(CourseSchema)
     check_point_logs = fields.Nested(CheckPointLogSchema,
                                      many=True,
-                                     exclude=('event', 'check_point'))
+                                     exclude=('event',))

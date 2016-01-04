@@ -63,6 +63,8 @@ class Course(db.Model):
     date_edited = db.Column(db.DateTime(), default=datetime.utcnow)
     description = db.Column(db.Text())
 
+    def __repr__(self):
+        return '<Course: %d, %s>' % (self.id, self.description)
 
 class Event(db.Model):
     __tablename__ = 'event'
@@ -90,7 +92,11 @@ class CheckPoint(db.Model):
     lng = db.Column(db.Float)
     title = db.Column(db.String(10))
     message = db.Column(db.String(140))
-
+    near_distance = db.Column(db.Float, default=150)
+    found_distance = db.Column(db.Float, default=50)
+    
+    def __repr__(self):
+        return '<CP %d: Course: %d>' % (self.id, self.course_id)
 
 class CheckPointLog(db.Model):
     __tablename__ = 'check_point_log'
@@ -130,3 +136,7 @@ class LogPoint(db.Model):
     lng = db.Column(db.Float)
     distance = db.Column(db.Float)
     type = db.Column(db.String(10))
+    
+    
+    def __repr__(self):
+        return '<LP %d: CPLog: %d, Dist: %5.0f>' % (self.id, self.check_point_log_id, self.distance)
