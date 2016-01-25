@@ -34,13 +34,24 @@ checkpoint_api_config = {'collection_name': 'checkpoints',
                              },
                    }      
                    
+checkpointlog_api_config = {'collection_name': 'checkpointlogs',
+                    'url_prefix': url_prefix, 
+                    'methods': ['GET', 'POST', 'PUT', 'DELETE'], 
+                    'preprocessors': {
+                            'GET_MANY': [authenticate],
+                            'GET_SINGLE': [authenticate],
+                            'PUT_SINGLE': [authenticate],
+                            'POST': [authenticate]
+                             },
+                   }      
+                   
 event_api_config = {'collection_name': 'events',
                     'url_prefix': url_prefix, 
                     'methods': ['GET', 'POST', 'PUT', 'DELETE'], 
                     'preprocessors': {
                             'GET_MANY': [authenticate],
                             'GET_SINGLE': [authenticate],
-                            'PUT_SINGLE': [authenticate, print_request],
+                            'PUT_SINGLE': [authenticate],
                             'POST': [authenticate]
                              },
                     'postprocessors': {'POST': [create_check_point_logs]},

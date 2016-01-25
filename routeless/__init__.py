@@ -8,10 +8,10 @@ from flask_jwt import JWT
 
 
 from routeless.extensions import db, api_manager, ma
-from routeless.models import User, Course, CheckPoint, Event, LogPoint
+from routeless.models import User, Course, CheckPoint, CheckPointLog, Event, LogPoint
 from routeless.admin import admin
-from routeless.api_1_0 import course_api_config, checkpoint_api_config, event_api_config, \
-                              user_api_config, logpoint_api_config
+from routeless.api_1_0 import course_api_config, checkpoint_api_config, checkpointlog_api_config,  \
+                              event_api_config, user_api_config, logpoint_api_config
 from config import config
 
 import pdb, logging
@@ -72,6 +72,9 @@ def create_app(config_name):
         
         checkpoint_api = api_manager.create_api_blueprint(CheckPoint, app=app, **checkpoint_api_config)
         app.register_blueprint(checkpoint_api)
+            
+        checkpointlog_api = api_manager.create_api_blueprint(CheckPointLog, app=app, **checkpointlog_api_config)
+        app.register_blueprint(checkpointlog_api)
             
         event_api = api_manager.create_api_blueprint(Event, app=app, **event_api_config)
         app.register_blueprint(event_api)

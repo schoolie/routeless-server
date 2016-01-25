@@ -5,6 +5,11 @@ from routeless.models import User, Course, Event, CheckPointLog
 from routeless.schemas import EventSchema
 from routeless.extensions import db
 
+import pprint
+
+pp = pprint.PrettyPrinter(indent=2)
+
+
 url_prefix = '/api_1_0'
 
 @jwt_required()
@@ -21,8 +26,8 @@ def authenticate(**kw):
     print 'Authenticated'
     
 def print_request(data=None, **kw):
-    print data
     print kw
+    pp.pprint(data)
     import pdb; pdb.set_trace()
     
 def create_user(data=None, **kw):
